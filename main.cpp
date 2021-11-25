@@ -33,9 +33,27 @@ string exec(string command) {
 }
 
 int main() {
-   cout << "Hello World!";
-   int a=0;
-   cin>>a;
-   printf("%d", a);
+   cout << "Program Begin\n";
+   char control = '\0';
+   while (true)
+   {
+      cout<<"Saftey check 1: Do you wish to Continue? [Y/n]:";
+      cin>>control;
+      if (control == 'Y')
+      {
+         cout<<"Continiuing...\n";
+         break;
+      }
+      else if (control == 'n' || control == 'N')
+      {
+         cout<<"Terminating...";
+         return 0;
+      }
+      else
+      {
+         cout<<"Input not understood, please try again.\n";
+      }
+   }
+   cout<<"Continue successful";
    return 0;
 }
