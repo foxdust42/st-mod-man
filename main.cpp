@@ -2,9 +2,13 @@
 #include <stdexcept>
 #include <stdio.h>
 #include <string>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 using namespace std;
 
+//Returns console output of passed command
 string exec(string command) {
    char buffer[128];
    string result = "";
