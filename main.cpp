@@ -66,9 +66,9 @@ int main(int argc, char const *argv[]) {
    if(safety_check()==0){return 0;};
    //Safety check end
    fs::path root;
-   std::string s;
    while (true)
    {
+      std::string s;
       cout<<"Enter path to directory:\n";
       cin.ignore();
       getline(cin, s);
@@ -101,28 +101,27 @@ int main(int argc, char const *argv[]) {
    
    std::vector<fs::path> list;
    
-   //debug block
+/*    //debug block
    cout<<"Full dir:\n";
    for (const auto & entry : fs::directory_iterator(root)){
       cout<<entry.path()<<"\n";
-   }
+   } */
    
    cout<<"\nSub-dirs only:\n";
    for (const auto & entry : fs::directory_iterator(root)){
-      if (entry.path().has_extension()==0)
+      if (fs::is_directory(entry.path())==1)
       {
          cout<<entry.path()<<"\n";
          list.push_back(entry.path());
       }
    }
-   //debug block
+ /*   //debug block
    cout<<"\nlist array 1:\n";
    for (int i = 0; i < list.size(); i++)
    {
       cout<<list[i]<<endl;
-   }
+   } */
 
-   
    for (int i = 0; i < list.size(); i++)
    {
       if (fs::is_regular_file(list[i]/"descriptor.mod")==1)
@@ -137,12 +136,12 @@ int main(int argc, char const *argv[]) {
       
    }
    
-   //debug block
+/*    //debug block
     cout<<"\nlist array 2:\n";
    for (int i = 0; i < list.size(); i++)
    {
       cout<<list[i]<<endl;
    }
-
+ */
    return 0;
 }
