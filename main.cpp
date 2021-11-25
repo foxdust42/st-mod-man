@@ -36,5 +36,6 @@ int main() {
    cout << "Hello World!";
    int a=0;
    cin>>a;
+   printf("%d", a);
    return 0;
 }
