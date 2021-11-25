@@ -99,8 +99,9 @@ int main(int argc, char const *argv[]) {
       }
    }
    
-   std::vector<fs::path> dir_list;
-
+   std::vector<fs::path> list;
+   
+   //debug block
    cout<<"Full dir:\n";
    for (const auto & entry : fs::directory_iterator(root)){
       cout<<entry.path()<<"\n";
@@ -111,11 +112,37 @@ int main(int argc, char const *argv[]) {
       if (entry.path().has_extension()==0)
       {
          cout<<entry.path()<<"\n";
-         
+         list.push_back(entry.path());
       }
    }
+   //debug block
+   cout<<"\nlist array 1:\n";
+   for (int i = 0; i < list.size(); i++)
+   {
+      cout<<list[i]<<endl;
+   }
 
-   //cout<<"Seaching directory...\n";
+   
+   for (int i = 0; i < list.size(); i++)
+   {
+      if (fs::is_regular_file(list[i]/"descriptor.mod")==1)
+      {
+         list[i]=list[i]/"descriptor.mod";
+      }
+      else
+      {
+         list.erase(list.begin()+i);
+         i--;
+      }
+      
+   }
+   
+   //debug block
+    cout<<"\nlist array 2:\n";
+   for (int i = 0; i < list.size(); i++)
+   {
+      cout<<list[i]<<endl;
+   }
 
    return 0;
 }
