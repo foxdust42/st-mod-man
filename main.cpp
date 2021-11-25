@@ -1,6 +1,7 @@
 #include <iostream>
+#include <fstream>
 //#include <stdexcept>
-#include <stdio.h>
+//#include <stdio.h>
 #include <string>
 #include <filesystem>
 #include <vector>
@@ -34,6 +35,15 @@ string exec(string command) {
    return result;
 }
 */
+
+void back_to_front(std::string s){
+   std::size_t a;
+   while (a!=std::string::npos)
+   {
+      s.find('\\');
+      
+   }
+}
 
 bool safety_check(){
    char control = '\0';
@@ -126,7 +136,7 @@ int main(int argc, char const *argv[]) {
    {
       if (fs::is_regular_file(list[i]/"descriptor.mod")==1)
       {
-         list[i]=list[i]/"descriptor.mod";
+         //list[i]=list[i]/"descriptor.mod";
       }
       else
       {
@@ -143,5 +153,24 @@ int main(int argc, char const *argv[]) {
       cout<<list[i]<<endl;
    }
  */
+
+//  list[0].stem();
+
+   std::fstream descriptor, target;
+   fs::path active = root/list[0].stem()/"decsriptor.mod";
+   cout<<active.string().c_str()<<endl;
+   target.open(active.string().c_str(), std::fstream::in);
+   cout<<target.is_open();
+   
+   //target<<"Yeet";
+/*    for (int  i = 0; i < list.size(); i++)
+   {
+      descriptor.open(list[i]/"descriptor.mod", std::fstream::in, std::fstream::out);
+      descriptor.seekg(0, descriptor.beg);
+      target.open(root/list[0].stem());
+
+   } */
+   
+
    return 0;
 }
