@@ -33,6 +33,5 @@ string exec(string command) {
 }
 
 int main() {
-   string ls = exec("ls");
-   cout << ls;
+   cout << "Hello World!";
 }
