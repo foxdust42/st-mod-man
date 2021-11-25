@@ -1,14 +1,33 @@
-#include <fstream>
 #include <iostream>
+#include <stdexcept>
+#include <stdio.h>
 #include <string>
-#include <experimental/filesystem>
 
-namespace fs = std::experimental::filesystem;
+using namespace std;
 
-int main(int argc, char const *argv[])
-{
-    std::string path = "/path/to/directory";
-    for (const auto & entry : fs::directory_iterator(path))
-    std::cout << entry.path() << std::endl;
-    return 0;
+string exec(string command) {
+   char buffer[128];
+   string result = "";
+
+   // Open pipe to file
+   FILE* pipe = _popen(command.c_str(), "r");
+   if (!pipe) {
+      return "popen failed!";
+   }
+
+   // read till end of process:
+   while (!feof(pipe)) {
+
+      // use buffer to read and add to result
+      if (fgets(buffer, 128, pipe) != NULL)
+         result += buffer;
+   }
+
+   _pclose(pipe);
+   return result;
+}
+
+int main() {
+   string ls = exec("ls");
+   cout << ls;
 }

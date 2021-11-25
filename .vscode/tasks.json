@@ -67,7 +67,6 @@
 			"label": "C/C++: g++.exe build active file",
 			"command": "C:\\dev\\mingw64\\bin\\gcc.exe",
 			"args": [
-				"-lstdc++fs",
 				"-std=c++17",
 				"-fdiagnostics-color=always",
 				"-g",
