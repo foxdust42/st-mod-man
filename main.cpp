@@ -8,7 +8,8 @@ namespace fs = std::filesystem;
 
 using namespace std;
 
-//Returns console output of passed command
+//Executes a console command and returns it's console output
+//Stolen from https://www.tutorialspoint.com/How-to-execute-a-command-and-get-the-output-of-command-within-Cplusplus-using-POSIX
 string exec(string command) {
    char buffer[128];
    string result = "";
