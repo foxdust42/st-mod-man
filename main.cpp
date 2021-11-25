@@ -1,13 +1,15 @@
 #include <iostream>
-#include <stdexcept>
+//#include <stdexcept>
 #include <stdio.h>
 #include <string>
 #include <filesystem>
+#include <vector>
 
 namespace fs = std::filesystem;
 
 using namespace std;
 
+/*
 //Executes a console command and returns it's console output
 //Stolen from https://www.tutorialspoint.com/How-to-execute-a-command-and-get-the-output-of-command-within-Cplusplus-using-POSIX
 string exec(string command) {
@@ -31,22 +33,22 @@ string exec(string command) {
    _pclose(pipe);
    return result;
 }
+*/
 
-int main() {
-   cout << "Program Begin\n";
+bool safety_check(){
    char control = '\0';
    while (true)
    {
-      cout<<"Saftey check 1: Do you wish to Continue? [Y/n]:";
+      cout<<"Do you wish to Continue? [Y/n]:";
       cin>>control;
       if (control == 'Y')
       {
          cout<<"Continiuing...\n";
-         break;
+         return 1;
       }
       else if (control == 'n' || control == 'N')
       {
-         cout<<"Terminating...";
+         cout<<"Terminating program...";
          return 0;
       }
       else
@@ -54,6 +56,66 @@ int main() {
          cout<<"Input not understood, please try again.\n";
       }
    }
-   cout<<"Continue successful";
+   return 0;
+}
+
+int main(int argc, char const *argv[]) {
+   
+   cout << "Program Begin\n";
+   //Safety check begin
+   if(safety_check()==0){return 0;};
+   //Safety check end
+   fs::path root;
+   std::string s;
+   while (true)
+   {
+      cout<<"Enter path to directory:\n";
+      cin.ignore();
+      getline(cin, s);
+      if (s[0]=='"')
+      {
+         s.erase(0,1);
+         s.erase(s.length()-1,1);
+      }
+      root = s; 
+      if(fs::is_directory(root)==1){
+         cout<<"Directory dedected.\n";
+         cout<<"This program has no real way of checking this directoies' contents.\n";
+         cout<<"Please make sure that the entered directory has >>only<< the folders you wish to affect.\n";
+         if(safety_check()==1){
+            break;
+         }
+         else
+         {
+            return 0;
+         }
+      }
+      else
+      {
+         cout<<"not a directory\n";
+         if(safety_check()==0){
+            return 0;
+         }
+      }
+   }
+   
+   std::vector<fs::path> dir_list;
+
+   cout<<"Full dir:\n";
+   for (const auto & entry : fs::directory_iterator(root)){
+      cout<<entry.path()<<"\n";
+   }
+   
+   cout<<"\nSub-dirs only:\n";
+   for (const auto & entry : fs::directory_iterator(root)){
+      if (entry.path().has_extension()==0)
+      {
+         cout<<entry.path()<<"\n";
+         
+      }
+   }
+
+   //cout<<"Seaching directory...\n";
+
    return 0;
 }
