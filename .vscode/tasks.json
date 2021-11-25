@@ -19,10 +19,7 @@
 			"problemMatcher": [
 				"$msCompile"
 			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
+			"group": "build",
 			"detail": "compiler: cl.exe"
 		},
 		{
@@ -55,7 +52,41 @@
 				"${file}",
 				"-o",
 				"${fileDirname}\\${fileBasenameNoExtension}.exe"
-			]
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: C:/dev/mingw64/bin/gcc.exe"
+		},
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe build active file",
+			"command": "C:\\dev\\mingw64\\bin\\gcc.exe",
+			"args": [
+				"-lstdc++fs",
+				"-std=c++17",
+				"-fdiagnostics-color=always",
+				"-g",
+				"${file}",
+				"-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe"
+			],
+			"options": {
+				"cwd": "${fileDirname}",
+				"includePath": "a"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: C:\\dev\\mingw64\\bin\\gcc.exe"
 		}
 	]
 }
