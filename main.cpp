@@ -34,4 +34,7 @@ string exec(string command) {
 
 int main() {
    cout << "Hello World!";
+   int a=0;
+   cin>>a;
+   return 0;
 }
