@@ -1,7 +1,5 @@
 #include <iostream>
 #include <fstream>
-//#include <stdexcept>
-//#include <stdio.h>
 #include <string>
 #include <filesystem>
 #include <vector>
@@ -9,32 +7,6 @@
 namespace fs = std::filesystem;
 
 using namespace std;
-
-/*
-//Executes a console command and returns it's console output
-//Stolen from https://www.tutorialspoint.com/How-to-execute-a-command-and-get-the-output-of-command-within-Cplusplus-using-POSIX
-string exec(string command) {
-   char buffer[128];
-   string result = "";
-
-   // Open pipe to file
-   FILE* pipe = _popen(command.c_str(), "r");
-   if (!pipe) {
-      return "popen failed!";
-   }
-
-   // read till end of process:
-   while (!feof(pipe)) {
-
-      // use buffer to read and add to result
-      if (fgets(buffer, 128, pipe) != NULL)
-         result += buffer;
-   }
-
-   _pclose(pipe);
-   return result;
-}
-*/
 
 std::string back_to_front(std::string s){
    std::size_t a=s.find('\\');
@@ -113,87 +85,54 @@ int main(int argc, char const *argv[]) {
    
    std::vector<fs::path> list;
    
-/*    //debug block
-   cout<<"Full dir:\n";
-   for (const auto & entry : fs::directory_iterator(root)){
-      cout<<entry.path()<<"\n";
-   } */
-   
-   //cout<<"\nSub-dirs only:\n";
    for (const auto & entry : fs::directory_iterator(root)){
       if (fs::is_directory(entry.path())==1)
       {
-         //cout<<entry.path()<<"\n";
          list.push_back(entry.path());
       }
    }
- /*   //debug block
-   cout<<"\nlist array 1:\n";
-   for (int i = 0; i < list.size(); i++)
-   {
-      cout<<list[i]<<endl;
-   } */
 
    for (int i = 0; i < list.size(); i++)
    {
-      if (fs::is_regular_file(list[i]/"descriptor.mod")==1)
-      {
-         //list[i]=list[i]/"descriptor.mod";
-      }
-      else
+      if (fs::is_regular_file(list[i]/"descriptor.mod")==0)
       {
          list.erase(list.begin()+i);
          i--;
       }
-      
    }
    
-/*    //debug block
-    cout<<"\nlist array 2:\n";
+   std::fstream new_desc, target;
+   fs::path active;
+   fs::path reciever;
+   std::string x, y, tmp;
    for (int i = 0; i < list.size(); i++)
    {
-      cout<<list[i]<<endl;
-   }
- */
-
-//  list[0].stem();
-
-   std::fstream new_desc, target;
-   fs::path active = root/list[0].stem()/"descriptor.mod", reciever = root/list[0].stem();
-   reciever += ".mod";
-   std::string x = back_to_front(active.string().c_str()), y = back_to_front(reciever.string().c_str());
-   
-   //x=back_to_front(x);
-   //cout<<x<<" "<<endl;
-   //cout<<back_to_front(reciever.string().c_str())<<endl;
-
-   cout<<y<<endl;
-
-   target.open(x, std::fstream::in|std::fstream::out|std::fstream::trunc);
-   cout<<target.is_open();
-   target<<"Test Line\n";
-   target.close();
-   
-   new_desc.open(y, std::fstream::in|std::fstream::out|std::fstream::trunc);
-   if (target.is_open()==1)
-   {
-      new_desc<<"Test Line\n";
+      active = root/list[i].stem()/"descriptor.mod";
+      reciever = root/list[i].stem(); reciever += ".mod";
+      x = back_to_front(active.string().c_str()); y = back_to_front(reciever.string().c_str());
+      target.open(x, std::fstream::in);
+      new_desc.open(y, std::fstream::in|std::fstream::out|std::fstream::trunc);
+      if (!(target.is_open() || new_desc.is_open())){
+         cout<<"file open fail";
+         return -1;
+      }
+      while (!target.eof())
+      {
+         getline(target, tmp);
+         if (!(tmp.find("path=")==0))
+         {
+            new_desc<<tmp<<"\n";
+         }
+      }
+      reciever = root/list[i].stem();
+      tmp = back_to_front(reciever.string().c_str());
+      tmp = tmp.substr(tmp.find_last_of("/"));
+      tmp = "C:/Users/Karol/Documents/Paradox Interactive/Stellaris/mod" + tmp;
+      new_desc<<"path=\""<<tmp<<"\"";
+      
+      
       target.close();
+      new_desc.close();
    }
-   else
-   {
-      return -1;
-   }
-   
-   //target<<"Yeet";
-/*    for (int  i = 0; i < list.size(); i++)
-   {
-      descriptor.open(list[i]/"descriptor.mod", std::fstream::in, std::fstream::out);
-      descriptor.seekg(0, descriptor.beg);
-      target.open(root/list[0].stem());
-
-   } */
-   
-
    return 0;
 }
