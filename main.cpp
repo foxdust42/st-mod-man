@@ -158,17 +158,32 @@ int main(int argc, char const *argv[]) {
 
 //  list[0].stem();
 
-   std::fstream descriptor, target;
-   fs::path active = root/list[0].stem()/"descriptor.mod";
-   std::string x = active.string().c_str();
-   x=back_to_front(x);
+   std::fstream new_desc, target;
+   fs::path active = root/list[0].stem()/"descriptor.mod", reciever = root/list[0].stem();
+   reciever += ".mod";
+   std::string x = back_to_front(active.string().c_str()), y = back_to_front(reciever.string().c_str());
    
-   cout<<x<<" "<<endl;
-   
+   //x=back_to_front(x);
+   //cout<<x<<" "<<endl;
+   //cout<<back_to_front(reciever.string().c_str())<<endl;
+
+   cout<<y<<endl;
+
    target.open(x, std::fstream::in|std::fstream::out|std::fstream::trunc);
    cout<<target.is_open();
    target<<"Test Line\n";
    target.close();
+   
+   new_desc.open(y, std::fstream::out|std::fstream::trunc);
+   if (target.is_open()==1)
+   {
+      new_desc<<"Test Line\n";
+      target.close();
+   }
+   else
+   {
+      return -1;
+   }
    
    //target<<"Yeet";
 /*    for (int  i = 0; i < list.size(); i++)
