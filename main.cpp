@@ -36,13 +36,15 @@ string exec(string command) {
 }
 */
 
-void back_to_front(std::string s){
-   std::size_t a;
+std::string back_to_front(std::string s){
+   std::size_t a=s.find('\\');
+   //cout<<s<<endl;
    while (a!=std::string::npos)
    {
-      s.find('\\');
-      
+      s.replace(a,1,"/");
+      a=s.find('\\');
    }
+   return s;
 }
 
 bool safety_check(){
@@ -117,11 +119,11 @@ int main(int argc, char const *argv[]) {
       cout<<entry.path()<<"\n";
    } */
    
-   cout<<"\nSub-dirs only:\n";
+   //cout<<"\nSub-dirs only:\n";
    for (const auto & entry : fs::directory_iterator(root)){
       if (fs::is_directory(entry.path())==1)
       {
-         cout<<entry.path()<<"\n";
+         //cout<<entry.path()<<"\n";
          list.push_back(entry.path());
       }
    }
@@ -157,9 +159,13 @@ int main(int argc, char const *argv[]) {
 //  list[0].stem();
 
    std::fstream descriptor, target;
-   fs::path active = root/list[0].stem()/"decsriptor.mod";
-   cout<<active.string().c_str()<<endl;
-   target.open(active.string().c_str(), std::fstream::in);
+   fs::path active = root/list[0].stem()/"descriptor.mod";
+   std::string x = active.string().c_str();
+   x=back_to_front(x);
+   
+   cout<<x<<" "<<endl;
+   
+   target.open(x, std::fstream::in);
    cout<<target.is_open();
    
    //target<<"Yeet";
