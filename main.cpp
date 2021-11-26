@@ -165,8 +165,10 @@ int main(int argc, char const *argv[]) {
    
    cout<<x<<" "<<endl;
    
-   target.open(x, std::fstream::in);
+   target.open(x, std::fstream::in|std::fstream::out|std::fstream::trunc);
    cout<<target.is_open();
+   target<<"Test Line\n";
+   target.close();
    
    //target<<"Yeet";
 /*    for (int  i = 0; i < list.size(); i++)
