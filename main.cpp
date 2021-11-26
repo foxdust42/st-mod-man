@@ -174,7 +174,7 @@ int main(int argc, char const *argv[]) {
    target<<"Test Line\n";
    target.close();
    
-   new_desc.open(y, std::fstream::out|std::fstream::trunc);
+   new_desc.open(y, std::fstream::in|std::fstream::out|std::fstream::trunc);
    if (target.is_open()==1)
    {
       new_desc<<"Test Line\n";
