@@ -8,7 +8,7 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "${fileDirname}\\Stellaris_mod_tool.exe",
                 "my.res"
             ],
             "options": {
