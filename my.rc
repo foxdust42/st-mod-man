@@ -7,7 +7,7 @@ BEGIN
   BEGIN
     BLOCK "041504E4"
     BEGIN
-      VALUE "CompanyName", "Foxdust GmoH"
+      VALUE "CompanyName", "Foxdust GmkH"
       VALUE "FileDescription", "A tool for automating Stellaris modding"
       VALUE "FileVersion", "1.0"
       VALUE "InternalName", "Stellaris_mod_tool"
